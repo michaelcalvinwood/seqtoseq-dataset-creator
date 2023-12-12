@@ -1,0 +1,13 @@
+.Home {
+    
+    &__content {
+        display: block;
+        max-width: 900px;
+        width: 90%;
+        margin: auto;
+    }
+
+    &__title {
+        text-align: center;
+    }
+}
