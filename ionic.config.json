@@ -1,0 +1,7 @@
+{
+  "name": "seqtoseq-dataset-creator",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
