@@ -23,6 +23,7 @@ const Home: React.FC = () => {
 
   const [input, setInput] = useState(inputs[0].value)
   const [output, setOutput] = useState(inputs[0].name)
+  const [start ,setStart] = useState('0')
 
 
   return (
@@ -32,9 +33,9 @@ const Home: React.FC = () => {
           <IonTitle className='Home__title'>Seq2Seq Dataset Creator</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent fullscreen style={{backgroundColor: 'var(ion-color-secondary) !important'}}>
         <div className='Home__content'>
-          <IonSelect label="Input:" value={input} onIonChange={(e) => setInput(e.detail.value)}>
+          <IonSelect className='Home__input' label="Input:" value={input} onIonChange={(e) => setInput(e.detail.value)}>
             {inputs.map(input => {
               return (
                 <IonSelectOption key={input.id} value={input.value}>{input.name}</IonSelectOption>
@@ -43,7 +44,9 @@ const Home: React.FC = () => {
 
             }
             </IonSelect>
+            <IonInput className='Home__start' label="Start:" type="number" min="0" value={start} onIonInput={(e) => setStart(e.detail.value) }/>
             <IonInput className='Home__output' label="Output:" value={output} onIonInput={(e) => setOutput(e.detail.value)}/>
+            
         </div>
       </IonContent>
     </IonPage>

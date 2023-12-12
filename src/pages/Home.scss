@@ -6,12 +6,17 @@
         width: 90%;
         margin: auto;
     }
-
+    &__input {
+        
+    }
     &__title {
         text-align: center;
     }
-
     &__output {
         text-align: right;
     }
+    &__start {
+        text-align: right;
+    }
+
 }
