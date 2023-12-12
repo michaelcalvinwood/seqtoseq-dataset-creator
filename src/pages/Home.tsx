@@ -62,7 +62,8 @@ const Home: React.FC = () => {
          </div>
          <div className='Home__curnum'>{curNum}</div>
          <IonButton className='Home__submit'>Submit</IonButton>
-            
+         <IonButton className='Home__submit' fill='outline' >Skip</IonButton>
+
         </div>
       </IonContent>
     </IonPage>
