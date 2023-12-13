@@ -80,9 +80,20 @@ const Home = () => {
   }
 
   const newTarget = async origText => {
+    setTarget('Loading...');
 
     try {
-      setTarget(origText);
+      const request = {
+        url: `https://dataset.nlpkit.net:6315/getTransformed`,
+        method: 'post',
+        data: {
+          text: origText
+        }
+      }
+
+      const response = await axios(request);
+
+      setTarget(response.data.transformed);
     } catch(e) {
       console.error(e);
     }
@@ -100,12 +111,12 @@ const Home = () => {
   }, [input])
 
   useEffect(() => {
-    if (inputText[start]) newTarget(inputText[start]); else setTarget('');
+    if (inputText[start]) newTarget(inputText[start][0]); else setTarget('');
     setCurNum(start)
   }, [inputText, start])
 
   useEffect(() => {
-    if (inputText[curNum]) newTarget([inputText[curNum]]); else setTarget('');
+    if (inputText[curNum]) newTarget(inputText[curNum]); else setTarget('');
   }, [curNum])
 
   return (
