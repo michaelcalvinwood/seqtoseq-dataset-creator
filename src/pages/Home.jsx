@@ -63,6 +63,11 @@ const Home = () => {
     const currentHeight = el?.style.height;
     if (desiredHeight !== currentHeight) el.style.height = desiredHeight + 'px'
   }
+
+  const handleSubmit = () => {
+
+  }
+
   useEffect(() => {
     setTimeout(adjustHeight, 250)
   })
@@ -77,6 +82,10 @@ const Home = () => {
   useEffect(() => {
     if (inputText[start]) setTarget(inputText[start])
   }, [inputText, start])
+
+  useEffect(() => {
+    if (inputText[curNum]) setTarget([inputText[curNum]])
+  }, [curNum])
 
   return (
     <IonPage className='Home'>
@@ -111,8 +120,8 @@ const Home = () => {
             </div>
          </div>
          <div className='Home__curnum'>{curNum}</div>
-         <IonButton className='Home__submit'>Submit</IonButton>
-         <IonButton className='Home__submit' fill='outline' >Skip</IonButton>
+         <IonButton className='Home__submit' onclick={handleSubmit}>Submit</IonButton>
+         <IonButton className='Home__submit' fill='outline' onClick={() => setCurNum(s => (Number(s)+1).toString())}>Skip</IonButton>
          <IonTextarea className='Home__target' value={target} onInput={(e) => setTarget(e.target.value)} id='target' rows={27}/>
         </div>
       </IonContent>
