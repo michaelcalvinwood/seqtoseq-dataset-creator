@@ -80,11 +80,12 @@ const Home = () => {
   }, [input])
 
   useEffect(() => {
-    if (inputText[start]) setTarget(inputText[start])
+    if (inputText[start]) setTarget(inputText[start]); else setTarget('');
+    setCurNum(start)
   }, [inputText, start])
 
   useEffect(() => {
-    if (inputText[curNum]) setTarget([inputText[curNum]])
+    if (inputText[curNum]) setTarget([inputText[curNum]]); else setTarget('');
   }, [curNum])
 
   return (
