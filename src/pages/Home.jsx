@@ -65,7 +65,27 @@ const Home = () => {
   }
 
   const handleSubmit = () => {
+    if (!target) return;
+    const request = {
+      url: `https://dataset.nlpkit.net:6315/addCsvEntry`,
+      method: 'post',
+      data: {
+        input: inputText[curNum],
+        output: target,
+        name: output
+      }
+    }
 
+    console.log(request);
+  }
+
+  const newTarget = async origText => {
+
+    try {
+      setTarget(origText);
+    } catch(e) {
+      console.error(e);
+    }
   }
 
   useEffect(() => {
@@ -80,12 +100,12 @@ const Home = () => {
   }, [input])
 
   useEffect(() => {
-    if (inputText[start]) setTarget(inputText[start]); else setTarget('');
+    if (inputText[start]) newTarget(inputText[start]); else setTarget('');
     setCurNum(start)
   }, [inputText, start])
 
   useEffect(() => {
-    if (inputText[curNum]) setTarget([inputText[curNum]]); else setTarget('');
+    if (inputText[curNum]) newTarget([inputText[curNum]]); else setTarget('');
   }, [curNum])
 
   return (
