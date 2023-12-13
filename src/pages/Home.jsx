@@ -1,14 +1,39 @@
-import { IonButton, IonContent, IonHeader, IonInput, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonContent, IonHeader, IonInput, IonPage, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
-import NewsArticles from '../'
 import './Home.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { readRemoteFile } from 'react-papaparse'
+import axios from 'axios';
 
-
-const Home: React.FC = () => {
+const Home = () => {
   
-  const processNewsArticles = () => {
+  const processNewsArticles = async (url) => {
+    try {
+      const request = {
+        url: `https://dataset.nlpkit.net:6315/getCsv`,
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: {
+          url
+        }
+      }
 
+      const response = await axios(request);
+      console.log(response.data)
+      const data = response.data.data;
+
+      const info = data.map((d, i) => {
+        const text = d[4] ? d[3] + "\n" + d[4] + "\n" + d[5] : d[3] + "\n" + d[5]
+        return text;
+      })
+
+      console.log('info', info)
+      setInputText(info)
+    } catch(e) {
+      console.error(e)
+    }
   }
 
   const inputs = [
@@ -16,7 +41,7 @@ const Home: React.FC = () => {
       id: 1,
       name: 'NewsArticles.csv',
       value: 'NewsArticles',
-      url: 'https://michaelcalvinwood.net/datasets/text-data/NewsArticles.csv',
+      url: 'https://www.michaelcalvinwood.net/datasets/text-data/NewsArticles.csv',
       processor: processNewsArticles
     }
   ]
@@ -25,8 +50,33 @@ const Home: React.FC = () => {
   const [output, setOutput] = useState(inputs[0].name)
   const [start, setStart] = useState('0')
   const [tokens, setTokens] = useState('400');
-  const [curNum, setCurNum] = useState(Math.floor(Number(start)))
+  const [curNum, setCurNum] = useState(Math.floor(Number(start)));
+  const [target, setTarget] = useState('');
+  const [inputText, setInputText] = useState([]);
 
+  console.log(tokens)
+
+  const adjustHeight = () => {
+    const el = document.getElementById('target');
+    const box = el?.getBoundingClientRect()
+    const desiredHeight = window.innerHeight - box.top - 8;
+    const currentHeight = el?.style.height;
+    if (desiredHeight !== currentHeight) el.style.height = desiredHeight + 'px'
+  }
+  useEffect(() => {
+    setTimeout(adjustHeight, 250)
+  })
+
+  useEffect(() => {
+    const inputSource = inputs.find(inp => inp.value === input);
+    inputSource.processor(inputSource.url);
+
+    console.log('new values', inputSource)    
+  }, [input])
+
+  useEffect(() => {
+    if (inputText[start]) setTarget(inputText[start])
+  }, [inputText, start])
 
   return (
     <IonPage className='Home'>
@@ -63,7 +113,7 @@ const Home: React.FC = () => {
          <div className='Home__curnum'>{curNum}</div>
          <IonButton className='Home__submit'>Submit</IonButton>
          <IonButton className='Home__submit' fill='outline' >Skip</IonButton>
-
+         <IonTextarea className='Home__target' value={target} onInput={(e) => setTarget(e.target.value)} id='target' rows={27}/>
         </div>
       </IonContent>
     </IonPage>
