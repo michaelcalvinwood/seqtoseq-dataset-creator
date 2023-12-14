@@ -106,26 +106,29 @@ const Home = () => {
     const stripped = response.data;
     setStripped(stripped);
     console.log('stripped', stripped)
+    setTarget(stripped[curNum] ? stripped[curNum] : '')
   }
 
   useEffect(() => {
     setTimeout(adjustHeight, 250)
   })
 
-  useEffect(() => {
-    const inputSource = inputs.find(inp => inp.value === input);
-    inputSource.processor(inputSource.url);
+  // useEffect(() => {
+  //   const inputSource = inputs.find(inp => inp.value === input);
+  //   inputSource.processor(inputSource.url);
 
-    console.log('new values', inputSource)    
-  }, [input])
+  //   console.log('new values', inputSource)    
+  // }, [input])
 
   useEffect(() => {
-    if (inputText[start]) newTarget(inputText[start][0]); else setTarget('');
+    //if (inputText[start]) newTarget(inputText[start][0]); else setTarget('');
     setCurNum(start)
+    setTarget(stripped[start] ? stripped[start] : '')
   }, [inputText, start])
 
   useEffect(() => {
-    if (inputText[curNum]) newTarget(inputText[curNum]); else setTarget('');
+    //if (inputText[curNum]) newTarget(inputText[curNum]); else setTarget('');
+    setTarget(stripped[curNum] ? stripped[curNum] : '')
   }, [curNum])
 
   useEffect(() => {
