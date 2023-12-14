@@ -54,6 +54,8 @@ const Home = () => {
   const [target, setTarget] = useState('');
   const [inputText, setInputText] = useState([]);
 
+  const [stripped, setStripped] = useState([]);
+
   console.log(tokens)
 
   const adjustHeight = () => {
@@ -99,6 +101,13 @@ const Home = () => {
     }
   }
 
+  const getStripped = async () => {
+    const response = await axios.get(`https://dataset.nlpkit.net:6315/getSamples`)
+    const stripped = response.data;
+    setStripped(stripped);
+    console.log('stripped', stripped)
+  }
+
   useEffect(() => {
     setTimeout(adjustHeight, 250)
   })
@@ -118,6 +127,10 @@ const Home = () => {
   useEffect(() => {
     if (inputText[curNum]) newTarget(inputText[curNum]); else setTarget('');
   }, [curNum])
+
+  useEffect(() => {
+    getStripped();
+  },[])
 
   return (
     <IonPage className='Home'>
