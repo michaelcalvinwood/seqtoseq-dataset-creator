@@ -66,16 +66,24 @@ const Home = () => {
     if (desiredHeight !== currentHeight) el.style.height = desiredHeight + 'px'
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!target) return;
     const request = {
       url: `https://dataset.nlpkit.net:6315/addCsvEntry`,
       method: 'post',
       data: {
-        input: inputText[curNum],
+        // input: inputText[curNum],
+        input: stripped[curNum],
         output: target,
         name: output
       }
+    }
+
+    try {
+      const response = await axios(request);
+    } catch(e) {
+      console.error(e);
+      alert("ERROR: Unable to submit output");
     }
 
     console.log(request);
