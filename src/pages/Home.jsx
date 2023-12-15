@@ -49,7 +49,7 @@ const Home = () => {
   const [input, setInput] = useState(inputs[0].value)
   const [output, setOutput] = useState(inputs[0].name)
   const [start, setStart] = useState('0')
-  const [tokens, setTokens] = useState('400');
+  const [tokens, setTokens] = useState('300');
   const [curNum, setCurNum] = useState(Math.floor(Number(start)));
   const [target, setTarget] = useState('');
   const [inputText, setInputText] = useState([]);
@@ -102,7 +102,7 @@ const Home = () => {
   }
 
   const getStripped = async () => {
-    const response = await axios.get(`https://dataset.nlpkit.net:6315/getSamples`)
+    const response = await axios.get(`https://dataset.nlpkit.net:6315/getSamples?tokens=${tokens}`)
     const stripped = response.data;
     setStripped(stripped);
     console.log('stripped', stripped)
